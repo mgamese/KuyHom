@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello Adonis</title>
+  {{ style('style') }}
+</head>
+<body>
+  <section>
+    <div class="logo"></div>
+    <div class="title"></div>
+    <div class="subtitle"><p>AdonisJs simplicity will make you feel confident about your code</p></div>
+  </section>
+  <form action="/add_los" method="POST">
+{{ csrfField() }}
+<input type="text" name="lo" id=""><input type="text" name="knowledge" id=""><input type="text" name="skill" id=""><input type="text" name="attitude" id="">
+<button type="submit">test</button>
+  </form>
+</body>
+</html>

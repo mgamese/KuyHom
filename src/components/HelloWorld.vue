@@ -1,58 +1,145 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-app id="inspire">
+
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center >
+      <v-flex md12 >
+      <v-card>
+     
+
+        <v-card-title primary-title>
+          <div>
+            <h3 class="headline mb-0">รายวิชา</h3>
+          
+          </div>
+        </v-card-title>
+
+      
+      </v-card>
+    </v-flex>
+         
+        </v-layout>
+      </v-container>
+    </v-content>
+
+    <v-btn
+      fab
+      bottom
+      right
+      color="pink"
+      dark
+      fixed
+      @click="dialog = !dialog"
+    >
+      <v-icon>add</v-icon>
+    </v-btn>
+
+    <v-dialog v-model="dialog" width="800px">
+      <v-card>
+        <v-card-title
+          class="grey lighten-4 py-4 title"
+        >
+          Create contact
+        </v-card-title>
+        <v-container grid-list-sm class="pa-4">
+          <v-layout row wrap>
+            <v-flex xs12 align-center justify-space-between>
+              <v-layout align-center>
+                <v-avatar size="40px" class="mr-3">
+                  <img
+                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
+                    alt=""
+                  >
+                </v-avatar>
+                <v-text-field
+                  placeholder="Name"
+                ></v-text-field>
+              </v-layout>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field
+                prepend-icon="business"
+                placeholder="Company"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field
+                placeholder="Job title"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                prepend-icon="mail"
+                placeholder="Email"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                type="tel"
+                prepend-icon="phone"
+                placeholder="(000) 000 - 0000"
+                mask="phone"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                prepend-icon="notes"
+                placeholder="Notes"
+              ></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-card-actions>
+          <v-btn flat color="primary">More</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
+          <v-btn flat @click="dialog = false">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-app>
 </template>
-
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  export default {
+    data: () => ({
+      dialog: false,
+      drawer: null,
+      items: [
+        { icon: 'contacts', text: 'Contacts' },
+        { icon: 'history', text: 'Frequently contacted' },
+        { icon: 'content_copy', text: 'Duplicates' },
+        {
+          icon: 'keyboard_arrow_up',
+          'icon-alt': 'keyboard_arrow_down',
+          text: 'Labels',
+          model: true,
+          children: [
+            { icon: 'add', text: 'Create label' }
+          ]
+        },
+        {
+          icon: 'keyboard_arrow_up',
+          'icon-alt': 'keyboard_arrow_down',
+          text: 'More',
+          model: false,
+          children: [
+            { text: 'Import' },
+            { text: 'Export' },
+            { text: 'Print' },
+            { text: 'Undo changes' },
+            { text: 'Other contacts' }
+          ]
+        },
+        { icon: 'settings', text: 'Settings' },
+        { icon: 'chat_bubble', text: 'Send feedback' },
+        { icon: 'help', text: 'Help' },
+        { icon: 'phonelink', text: 'App downloads' },
+        { icon: 'keyboard', text: 'Go to the old version' }
+      ]
+    }),
+    props: {
+      source: String
+    }
   }
-}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
