@@ -17,29 +17,7 @@ export default {
   watch: {},
   computed: {},
   methods: {
-    /*  deletePost: async function(id) {
-      let data = await axios
-        .delete(`http://10.94.98.239:3333/api/posts/${id}`)
-        .then(r => {
-          return r.data;
-          
-        });
 
-      await this.LoadPostsArray();
-    } */
-    /*     createNewPost: async function() {
-      let data = await axios
-        .post("http://10.94.98.239:3333/api/posts", this.createPostForm)
-        .then(r => {
-          return r.data;
-        });
-
-      await this.LoadPostsArray();
-      this.createPostForm = {};
-    }, */
-    /*     LoadPostsArray: async function() {
-    await postStore.dispatch('loadPosts')
-    } */
 
     getmessage: async function() {
       axios
@@ -58,8 +36,6 @@ export default {
           lastName: "Flintstone"
         })
         .then(response => (this.info = response));
-
-    
     }
   }
 };
