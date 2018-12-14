@@ -16,25 +16,27 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 const Database = use("Database");
-Route.get("/", async ({ request, view }) => {
-  const test = {
-    test: "test",
-    message: " สวัสดีครับ"
-  }
-  /*   let blogs = await Blog.all();
-    blogs = blogs.toJSON(); */
-  return view.render('welcome');
+
+Route.get("/select_los", async ({ request, view }) => {
+  const los = await Database.from('los');
+  return los;
 });
-
-
-Route.post("/posts", async ({ request, view }) => {
-
+Route.post("/select_edit", async ({ request, view }) => {
   let GETDATA = request.post();
-  const test = {
-    test: "1111",
-    message: " 11111"
-  }
-  return GETDATA;
+  const los = await Database.from('los').where({
+    lo_id:GETDATA.lo_id
+  });
+  return los;
+});
+Route.post("/edit_lo", async ({ request, view }) => {
+  let GETDATA = request.post();
+  await Database.table('los').where('lo_id',GETDATA.lo_id).update({
+    lo:GETDATA.edit_lo,
+    knowledge:GETDATA.edit_knowledge,
+    skill:GETDATA.edit_skill,
+    attitude:GETDATA.edit_attitude,
+  })
+ 
 });
 
 Route.post("/add_los", async ({ request, view }) => {
@@ -47,12 +49,12 @@ Route.post("/add_los", async ({ request, view }) => {
       skill: GETDATA.skill,
       attitude: GETDATA.attitude
     });
-    let data;
-  if(userId){
-     data = {
+  let data;
+  if (userId) {
+    data = {
       status: "success"
     };
-  }else{
+  } else {
     data = {
       status: "false"
     };
@@ -61,5 +63,29 @@ Route.post("/add_los", async ({ request, view }) => {
 
 
 });
+
+Route.post("/del_los", async ({ request, view }) => {
+  let GETDATA = request.post();
+  const lo = await Database
+    .table('los').where({
+      lo_id :GETDATA.lo_id
+    })
+    .delete();
+  let data;
+  if (lo) {
+    data = {
+      status: "success"
+    };
+  } else {
+    data = {
+      status: "false"
+    };
+  }
+  return data;
+
+
+});
+
+
 
 

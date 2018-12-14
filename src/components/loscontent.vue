@@ -58,8 +58,8 @@
                 <td class="text-xs-center">{{data_los[props.index].skill}}</td>
                 <td class="text-xs-center">{{data_los[props.index].attitude}}</td>
                 <td class="justify-center layout px-0">
-                  <v-icon small class="mr-2" @click="editItem(props.index)">edit</v-icon>
-                  <v-icon small @click="deleteItem(props.index)">delete</v-icon>
+                  <v-icon small class="mr-2" @click="editItem(data_los[props.index].lo_id)">edit</v-icon>
+                  <v-icon small @click="deleteItem(data_los[props.index].lo_id)">delete</v-icon>
                 </td>
               </template>
               <template slot="no-data">
@@ -108,29 +108,30 @@
         <v-card-title class="grey lighten-4 py-4 title">แก้ไข Learning Outcome</v-card-title>
         <v-container grid-list-sm class="pa-4">
           <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field prepend-icon="book" placeholder="ชื่อของ LOS" v-model="lo"></v-text-field>
+            
+            <v-flex xs12>             
+              <v-text-field value="test"  prepend-icon="book" placeholder="ชื่อของ LOS" v-model="edit_lo"  ></v-text-field>
             </v-flex>
             <v-flex xs12>
               <v-text-field
                 prepend-icon="book"
                 placeholder="ความรู้ที่จะได้รับ"
-                v-model="knowledge"
+                v-model="edit_knowledge"               
               ></v-text-field>
             </v-flex>
 
             <v-flex xs12>
-              <v-text-field prepend-icon="book" placeholder="ทักษะที่จะต้องได้รับ" v-model="skill"></v-text-field>
+              <v-text-field prepend-icon="book" placeholder="ทักษะที่จะต้องได้รับ" v-model="edit_skill"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field prepend-icon="book" placeholder="ที่ต้องการฝึกฝน" v-model="attitude"></v-text-field>
+              <v-text-field prepend-icon="book" placeholder="ที่ต้องการฝึกฝน" v-model="edit_attitude"></v-text-field>
             </v-flex>
           </v-layout>
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn flat color="primary" @click="edit = false">Cancel</v-btn>
-          <v-btn flat @click="edit = false;">Save</v-btn>
+          <v-btn flat @click="edit = false;edit_los(data_edit.data[0].lo_id);">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,6 +151,8 @@ export default {
     dialog: false,
     edit: false,
     search: "",
+    data_edit:null,
+    edit_lo:null,edit_knowledge:null,edit_skill:null,edit_attitude:null,
     pagination: {},
     selected: [],
     headers: [
@@ -182,7 +185,7 @@ export default {
   },
   methods: {
     add_los: async function() {
-      let data = await axios
+     await axios
         .post("http://localhost:3333/add_los", {
           lo: this.lo,
           knowledge: this.knowledge,
@@ -192,34 +195,45 @@ export default {
         .then(response => (this.info = response));
       window.location.reload();
     },
-
-    getmessage: async function() {
-      axios
-        .get("http://localhost:3333/")
-        .then(response => (this.info = response));
-    },
-    test: async function() {
-      this.info = {
-        test: "NO"
-      };
-    },
     select_los: async function() {
       axios
         .get("http://localhost:3333/select_los")
         .then(response => (this.data_los = response));
-    },
-    editItem(item) {
-      this.editedIndex = this.data_los.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.edit = true;
-    },
+    },   
 
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+    deleteItem:async function(item) {
+     await axios
+        .post("http://localhost:3333/del_los", {
+          lo_id:item
+        
+        });
+        window.location.reload();
     },
-
+    editItem:async function(item) {
+    
+      this.edit = !this.edit;
+      await axios
+        .post("http://localhost:3333/select_edit",{
+           lo_id:item
+        })
+        .then(response => (this.data_edit = response));
+        this.edit_lo = this.data_edit.data[0].lo;
+        this.edit_knowledge = this.data_edit.data[0].knowledge
+        this.edit_skill = this.data_edit.data[0].skill
+        this.edit_attitude = this.data_edit.data[0].attitude
+    },
+    edit_los:async function(item) {
+    
+     await axios
+        .post("http://localhost:3333/edit_lo", {
+          lo_id:item,
+          edit_lo:this.edit_lo,
+          edit_knowledge:this.edit_knowledge,
+          edit_skill:this.edit_skill,
+          edit_attitude:this.edit_attitude,
+        });
+        window.location.reload(); 
+    },
     close() {
       this.edit = false;
       setTimeout(() => {
