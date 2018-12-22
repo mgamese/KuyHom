@@ -14,42 +14,6 @@
               <v-icon>add</v-icon>
             </v-btn>
 
-            <!--  
-            <v-data-table         :headers="headers"           :items="data_los"           :search="search"        :pagination.sync="pagination"
-              hide-actions
-              class="elevation-1"
-            >
-              <template slot="headerCell" slot-scope="props">
-                <v-tooltip bottom>
-                  <span slot="activator">{{ props.header.text }}</span>
-                  <span>{{ props.header.text }}</span>
-                </v-tooltip>
-              </template>
-              <template slot="items" slot-scope="props">
-                <td class="text-xs-center">{{data_los[props.index].lo_id}}</td>
-                <td class="text-xs-center">{{data_los[props.index].lo}}</td>
-                <td class="text-xs-center">{{data_los[props.index].knowledge}}</td>
-                <td class="text-xs-center">{{data_los[props.index].skill}}</td>
-                <td class="text-xs-center">{{data_los[props.index].attitude}}</td>
-                <td class="text-xs-center">
-                  <v-btn
-                    slot="activator"
-                    color="warning"
-                    dark
-                    class="mb-2"
-                    @click="dialog = !dialog"
-                  >
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                  <v-btn slot="activator" color="red" dark class="mb-2">
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                </td>
-              </template>
-            </v-data-table>
-            <div class="text-xs-center pt-2">
-              <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
-            </div>-->
             <v-data-table :headers="headers" :items="data_los" class="elevation-1">
               <template slot="items" slot-scope="props">
                 <td class="text-xs-center">{{data_los[props.index].lo_id}}</td>
@@ -217,6 +181,7 @@ export default {
            lo_id:item
         })
         .then(response => (this.data_edit = response));
+        
         this.edit_lo = this.data_edit.data[0].lo;
         this.edit_knowledge = this.data_edit.data[0].knowledge
         this.edit_skill = this.data_edit.data[0].skill

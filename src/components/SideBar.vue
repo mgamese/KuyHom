@@ -34,7 +34,7 @@
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-             <v-list-tile :to="{name: 'category'}" exact flat>
+      <!--        <v-list-tile :to="{name: 'category'}" exact flat>
             <v-list-tile-action>
               <v-icon>contacts</v-icon>
             </v-list-tile-action>
@@ -43,7 +43,7 @@
               หมวดหมู่ Los
               </v-list-tile-title>
             </v-list-tile-content>
-          </v-list-tile>
+          </v-list-tile> -->
              <v-list-tile :to="{name: 'relation'}" exact flat>
             <v-list-tile-action>
               <v-icon>contacts</v-icon>
